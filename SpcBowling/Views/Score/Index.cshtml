@@ -1,0 +1,72 @@
+﻿@model SpcBowling.ViewModels.ScoreViewModels
+
+@{
+    ViewBag.Title = "Scores";
+    //int rankCounter = 1;
+}
+
+<h3>Average &amp; Handicap</h3>
+
+<div style="font:bold;color:red">
+    @TempData["AuthorizeMessage"]
+</div>
+
+<p>
+    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Member")))
+    { 
+        <span>@Html.ActionLink("Add Score", "Create", "Score", null, new { @class = "btn btn-primary btn-xs" })</span>
+        <span>@Html.ActionLink("Custom Average", "CustomAverage", "Score", null, new { @class = "btn btn-primary btn-xs" })</span>
+    }
+</p>
+
+<table class="table table-striped">
+    <tr>
+        @*<th class="col-md-1">Rank</th>*@
+        <th class="col-md-5">@Html.ActionLink("Name", "Index", new {sortParam = ViewBag.NameSortParam})</th>
+        <th class="col-md-3">@Html.ActionLink("Average", "Index", new {sortParam = ViewBag.AvgSortParam})</th>
+        <th class="col-md-3">@Html.ActionLink("Handicap", "Index", new {sortParam = ViewBag.HandiSortParam})</th>
+    </tr>
+    @foreach (var item in Model.Players) 
+    {
+        if (item.Scores.Count() > 0)
+        {
+            string selectedRow = "";
+            if (item.PlayerID == ViewBag.PlayerID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                @if (Model.Scores != null && item.PlayerID == ViewBag.PlayerID)
+                {
+                    <td colspan="3">    @* use CSS to align the width of below 3 div's*@
+                        @*<span>@Html.Partial("_FullNameWithImage", item)</span>*@
+                        @*<span class="col-md-1">@rankCounter</span>*@
+                        <span class="col-md-5">@Html.ActionLink(item.FullName, "Details", "Player", new { id = item.PlayerID, calledByView = "Score" }, null)</span>
+                        <span class="col-md-3">@Html.ActionLink(item.Average.ToString(), "Index", "Score", null, new { @class = "btn btn-primary btn-xs", @style = "width:45px;" })</span>
+                        <span class="col-md-3">@Html.ActionLink(item.Handicap.ToString(), "Index", "Score", null, new { @class = "btn btn-primary btn-xs", @style = "width:45px;" })</span>
+                        @Html.Partial("_DailyAverage", item)
+                    </td>
+                }
+                else
+                {
+                    @*<td>@Html.Partial("_FullNameWithImage", item)</td>*@
+                    @*<td class="col-md-1">@rankCounter</td>*@
+                    if (User.IsInRole("Admin") || User.IsInRole("Member"))
+                    { 
+                        <td class="col-md-5">@Html.ActionLink(item.FullName, "Details", "Player", new { id = item.PlayerID, calledByView = "Score" }, null)</td>
+                        <td class="col-md-3">@Html.ActionLink(item.Average.ToString(), "Index", "Score", new { playerID = item.PlayerID }, new { @class = "btn btn-primary btn-xs", @style = "width:45px;" })</td>
+                        <td class="col-md-3">@Html.ActionLink(item.Handicap.ToString(), "Index", "Score", new { playerID = item.PlayerID }, new { @class = "btn btn-primary btn-xs", @style = "width:45px;" })</td>
+                    }
+                    else
+                    {
+                        <td class="col-md-5">@Html.DisplayFor(i=>item.FullName)</td>
+                        <td class="col-md-3">@Html.DisplayFor(i => item.Average)</td>
+                        <td class="col-md-3">@Html.DisplayFor(i => item.Handicap)</td>
+                    }
+                    
+                }
+            </tr>
+        //{ rankCounter++;}
+        }
+    }
+</table>

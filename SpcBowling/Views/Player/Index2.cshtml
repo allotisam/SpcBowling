@@ -1,0 +1,59 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<SpcBowling.Models.Player>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Player List";
+}
+
+<h2>Players Ranking</h2>
+
+<div style="font:bold;color:red">
+    @TempData["AuthorizeMessage"]
+</div>
+
+@if(Request.IsAuthenticated && User.IsInRole("Admin"))
+{ 
+    <p>
+        @Html.ActionLink("Add Player", "Create", "Player", null, new { @class = "btn btn-primary btn-xs" })
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>@Html.ActionLink("Name", "Index", new {sortParam = ViewBag.NameSortParam})</th>
+        <th>@Html.ActionLink("Cumulative Average", "Index", new {sortParam = ViewBag.AverageSortParam})</th>
+        <th>@Html.ActionLink("Handicap", "Index", new {sortParam = ViewBag.HandicapSortParam})</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.ImageData != null)
+                {
+                    <img class="img-thumbnail" width="30" height="30" src="@Url.Action("GetImage", "Player", new {item.PlayerID})" />
+                }
+                else
+                {
+                    <img class="img-thumbnail" width="30" height="30" src="~/Content/Resources/unknown.png" />
+                }
+                @Html.ActionLink(item.FullName, "Details", new { id = item.PlayerID })
+            </td>
+            <td>@Html.DisplayFor(i => item.Average)</td>
+            <td>@Html.DisplayFor(i => item.Handicap)</td>
+            <td>
+                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", "Player", new { id = item.PlayerID }, new { @class = "btn btn-primary btn-xs" })
+                    <text>|</text> @Html.ActionLink("Delete", "Delete", "Player", new { id = item.PlayerID }, new { @class = "btn btn-primary btn-xs" })
+                }
+            </td>
+        </tr>
+    }
+</table>
+<br />
+Page @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortParam = ViewBag.CurrentSortParam }))
+

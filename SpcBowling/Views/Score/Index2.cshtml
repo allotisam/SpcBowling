@@ -1,0 +1,64 @@
+﻿@model SpcBowling.ViewModels.ScoreViewModels
+
+@{
+    ViewBag.Title = "Score List";
+}
+
+<h2>Daily Average &amp; Scores</h2>
+
+<div style="font:bold;color:red">
+    @TempData["AuthorizeMessage"]
+</div>
+
+<p>
+    @Html.ActionLink("Add Score", "Create", "Score", null, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Custom Average", "CustomAverage", "Score", null, new { @class = "btn btn-primary btn-xs" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Players.Single().FullName)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.Players) 
+    {
+        if (item.Scores.Count() > 0)
+        { 
+            string selectedRow = "";
+            if (item.PlayerID == ViewBag.PlayerID)
+            {
+                selectedRow = "success";    
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)        <!-- display player name -->
+
+                    @if (Model.Scores != null && item.PlayerID == ViewBag.PlayerID)
+                    {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <!-- display a date -->
+                                    <th>@Html.DisplayNameFor(modelItem => item.Scores.Single().Date)</th>   
+                                    <th>Daily Average</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- display each date and daily average -->
+                                @Html.Partial("_DailyAverage", item)                
+                            </tbody>
+                        </table>
+                    }
+                </td>
+                @if (item.PlayerID != ViewBag.PlayerID || ViewBag.PlayerID == null)
+                { 
+                    <td>@Html.ActionLink("Select", "Index", "Score", new { playerID = item.PlayerID }, new { @class = "btn btn-primary btn-xs" })</td>
+                }
+                else
+                {
+                    <td>@Html.ActionLink("Deselect", "Index", "Score", null, new { @class = "btn btn-primary btn-xs" })</td>
+                }
+            </tr>
+        }
+    }
+</table>

@@ -1,0 +1,38 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<SpcBowling.Models.Player>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Players";
+}
+
+<h3>Players Profile</h3>
+
+<div style="font:bold;color:red">
+    @TempData["AuthorizeMessage"]
+</div>
+
+@*<div>
+    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "playerList" }))
+    {
+        <input type="search" name="playerName" />
+        <input type="submit" value="Search Player" />
+    }
+    <br />
+</div>*@   
+
+<form method="get" action="@Url.Action("Index")" data-spcbowl-ajax="true" data-spcbowl-target="#playerList">
+    <input type="search" name="searchTerm" data-spcbowl-autocomplete="@Url.Action("Autocomplete")" />
+    <input type="submit" value="Search Player" class="btn btn-default btn-sm" />
+</form>
+<br />
+        
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{ 
+    <p>
+        @Html.ActionLink("Add Player", "Create", "Player", null, new { @class = "btn btn-primary btn-xs" })
+    </p>
+}
+
+@Html.Partial("_Players", Model)
+

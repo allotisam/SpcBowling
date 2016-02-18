@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div id="jumbotron" class="jumbotron"></div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>SPC Bowling League</h2>
+        <p class="lead">
+            is a social-oriented league played every Monday.
+            The league is open to all SPC brothers and sisters, so please join us and let's have mad-fun!!!
+        </p>
+        <p class="lead">
+            This site keeps track of all player's information &amp; scores. You can see the info by @Html.ActionLink("registering", "Login", "Account") as a new user
+        </p>
+        <p>@Html.ActionLink("Contact Admin", "Contact", "Home", new { @class = "btn btn-primary btn-sm" })</p>
+    </div>
+    <div class="col-md-6" style="align-items:center">
+        <h2>Getting Started</h2>
+        <p class="lead">
+            Come out to <a href="http://www.bowl-america.com/" target="_blank"><b>Bowl America</b></a> by 9pm Monday at 5615 Guinea Rd, Fairfax, VA 22032. Ph) 703.425.9303 <br />
+        </p>
+        <div id="map-canvas"></div>
+    </div>
+</div>
+
+<style>
+    #map-canvas {
+        width: 350px;
+        height: 350px;
+    }
+</style>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script>
+    function initialize() {
+        var mapCanvas = document.getElementById('map-canvas');
+        var mapOptions = {
+            center: new google.maps.LatLng(38.79854, -77.29403),
+            zoom: 17,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(mapCanvas, mapOptions)
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>

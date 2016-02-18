@@ -1,0 +1,38 @@
+﻿@model SpcBowling.Models.Player
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Daily Average</th>
+            <th>Scores</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dateGroup in Model.Scores.OrderBy(d => d.Date).GroupBy(g => g.Date))
+        {
+            <tr>
+                <td>
+                    @dateGroup.Key.ToShortDateString()      <!-- display each date -->
+                </td>
+                <td class="spanbtn">
+                    @Convert.ToInt32(dateGroup.Average(a => a.BowlingScore))
+                </td>
+                <td>
+                    @foreach (var score in dateGroup.OrderBy(s => s.ScoreID))
+                    {
+                        if (Request.IsAuthenticated && (User.IsInRole("Admin"))) // || ViewBag.PlayerID == Model.PlayerID)) 
+                        {
+                            TempData["PlayerID"] = ViewBag.PlayerID;
+                            <span>@Html.ActionLink(score.BowlingScore.ToString(), "Edit", new { id = score.ScoreID }, new { @class = "btn btn-default btn-xs" })</span>
+                        }
+                        else
+                        {
+                            <span class="spanbtn">@score.BowlingScore</span>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

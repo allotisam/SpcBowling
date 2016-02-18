@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SpcBowling.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>List of Users</h2>
+
+<p>
+    @Html.ActionLink("Create New User", "Create", "UsersAdmin", null, new { @class = "btn btn-primary btn-xs" })
+</p>
+<table class="table table-striped">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.UserName)</th>
+        @*Add a table header for player name*@
+        @*Add a table header for the Address info:*@
+        <th>@Html.DisplayNameFor(model => model.DisplayAddress)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+            @* add a table data for player name*@
+            <td>
+                @*Add table data for the Address info:*@
+                @Html.DisplayFor(modelItem => item.DisplayAddress)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

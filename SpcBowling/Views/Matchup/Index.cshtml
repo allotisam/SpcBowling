@@ -1,0 +1,106 @@
+﻿@model IEnumerable<SpcBowling.ViewModels.MatchupViewModel>
+
+@{
+    ViewBag.Title = "Matchup";
+}
+
+<style type="text/css">
+    #numOfTeams {
+        width: 50px;
+    }
+    #datep {
+        width: 100px;
+    }
+    form[data-spcbowl-matchup='true']{
+        margin-top: 20px;
+    }
+</style>
+@*<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/sunny/jquery-ui.css" />*@ 
+<script type="text/javascript" src="~/Scripts/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#datep').datepicker({
+            beforeShowDay: function (date) {
+                return [date.getDay() == 1 || date.getDay() == 5, "", "Bowling Date!"];
+            },
+            changeMonth: true,
+            changeYear: true,
+            hideIfNoPrevNext: false,
+            showOn: "both",
+            showAnim: "slideDown",
+            showButtonPanel: true
+        });
+
+        var popMatchupList = function () {
+            var $form = $(this);
+            var options = {
+                url: $form.attr("action"),
+                type: $form.attr("method"),
+                data: $form.serialize()
+            };
+            $.ajax(options).done(function (data) {
+                var $target = $($form.attr("data-spcbowl-target"));
+                var $newHtml = $(data);
+                $target.replaceWith($newHtml);
+            });
+
+            var $matchupPanel = $('#matchupList');
+
+        }
+
+        //var ajaxFormSubmit = function () {
+        //    var $form = $(this);
+        //    var options = {
+        //        url: $form.attr("action"),
+        //        type: $form.attr("method"),
+        //        data: $form.serialize()
+        //    };
+        //    $.ajax(options).done(function (data) {
+        //        var $target = $($form.attr("data-spcbowl-target"));
+        //        var $newHtml = $(data);
+        //        $target.replaceWith($newHtml);
+        //        $newHtml.effect("highlight");
+        //    });
+        //    return false;
+        //};
+
+
+        $("form[data-spcbowl-match='true']").submit(popMatchupList);
+    });
+</script>
+
+@*<div style="font:bold;color:red">
+    @TempData["AuthorizeMessage"]
+</div>*@
+
+<form method="post" action="@Url.Action("Index")" data-spcbowl-matchup="true" data-spcbowl-target="#matchupList">
+
+    <div id="configMatchup">
+        <label for="numOfTeams">How Many Teams? </label>
+        <input id="numOfTeams" type="number" />   @* Select how mnay teams are playing ..2-4*@
+        
+        <br />
+        
+        <label for="datep">Date? </label>
+        <input id="datep" />
+        
+        <br />
+
+        <label>Handi Based on? </label>
+        <input type="radio" name="handicap" id="cumulativeScore" checked />
+        <label for="cumulativeScore">Cumulative</label>
+        <input type="radio" name="handicap" id="todayScore" />
+        <label for="todayScore">Above Date</label>
+
+    </div>
+    <div id="buttonDiv">
+        <button type="submit">Submit</button>
+    </div>
+</form>
+<div id="matchupList" data-spcbowl-getallplayers="@Url.Action("GetAllPlayers")">
+    @* we will be adding multiples of <div id='teamPanel'></div> based on the numOfTeams's value*@
+</div>
+
+

@@ -1,0 +1,57 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<SpcBowling.Models.Player>
+
+<div id="playerList">
+    <table class="table table-striped">
+        <tr>
+            <th>@Html.ActionLink("Name", "Index", new { sortParam = ViewBag.NameSortParam, searchTerm = ViewBag.PlayerName })</th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Member"))
+            { 
+                <th>@Html.ActionLink("Phone Number", "Index", new { sortParam = ViewBag.PhoneSortParam, searchTerm = ViewBag.PlayerName })</th>
+            }
+            <th>@Html.ActionLink("Gender", "Index", new { sortParam = ViewBag.GenderSortParam, searchTerm = ViewBag.PlayerName })</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if (User.IsInRole("Admin") || User.IsInRole("Member"))
+                {
+                    <td>
+                        @if (item.ImageData != null)
+                        { 
+                            <img class="img-thumbnail" width="30" height="30" src="@Url.Action("GetImage", "Player", new {item.PlayerID})" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" width="30" height="30" src="~/Content/Resources/unknown.png" />
+                        }
+                        @Html.ActionLink(item.FullName, "Details", new { id = item.PlayerID, calledByView = "Player" }, null)
+                    </td>
+                    <td>@Html.DisplayFor(i => item.PhoneNumber)</td>
+                }
+                else
+                {
+                    <td>
+                        <img class="img-thumbnail" width="30" height="30" src="~/Content/Resources/unknown.png" />
+                        @Html.DisplayFor(i => item.FullName)
+                    </td>
+                }
+                <td>@Html.DisplayFor(i => item.Gender)</td>
+                <td>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", "Player", new { id = item.PlayerID }, new { @class = "btn btn-primary btn-xs" })
+                        <text>|</text> @Html.ActionLink("Delete", "Delete", "Player", new { id = item.PlayerID }, new { @class = "btn btn-primary btn-xs" })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    @*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
+    <div class="pagedList" data-spcbowl-target="#playerList">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { sortParam = ViewBag.CurrentSortParam, page, searchTerm = ViewBag.PlayerName }))
+    </div>
+</div>
+

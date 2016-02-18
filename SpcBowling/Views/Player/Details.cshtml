@@ -1,0 +1,91 @@
+﻿@model SpcBowling.ViewModels.RaiseAvgBy1ViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h4>Detail Info: @Model.Player.FirstName @Model.Player.LastName</h4>
+    <hr />
+    <table>
+        <tbody>
+            <tr>
+                <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Player.FirstName)</td>
+                <td style="padding-left:20px">@Html.DisplayFor(model => model.Player.FirstName)</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Player.LastName)</td>
+                <td style="padding-left:20px">@Html.DisplayFor(model => model.Player.LastName)</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Player.Gender)</td>
+                <td style="padding-left:20px">@Html.DisplayFor(model => model.Player.Gender)</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Player.PhoneNumber)</td>
+                <td style="padding-left:20px">@Html.DisplayFor(model => model.Player.PhoneNumber)</td>
+            </tr>
+            @if (Model.Player.Scores.Count() > 0)
+            {
+                <tr>
+                    <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Player.Handicap)</td>
+                    <td style="padding-left:20px">@Html.DisplayFor(model => model.Player.Handicap)</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Player.Average)</td>
+                    <td style="padding-left:20px">@Html.DisplayFor(model => model.Player.Average)</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold">Score Deviation</td>
+                    <td style="padding-left:20px">&#x207a;&#x2044;&#x208b; @Model.StandardDeviation (&#x207a;&#x2044;&#x208b; @Model.StandardDeviationPercentage%)</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold">To Raise Avg +1</td>
+                    <td style="padding-left: 20px">@Model.ToRaiseAvgBy1Total in Next 3 Games (@Model.ToRaiseAvgBy1PerGame per Game)</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold">Best Score</td>
+                    <td style="padding-left:20px">@Model.Player.Scores.Max().BowlingScore on @Model.Player.Scores.Max().Date.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold">Worst Score</td>
+                    <td style="padding-left:20px">@Model.Player.Scores.Min().BowlingScore on @Model.Player.Scores.Min().Date.ToShortDateString()</td>
+                </tr>
+            }
+
+            <tr>
+                <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Player.ImageData)</td>
+                <td>
+                @if (Model.Player.ImageData != null)
+                { 
+                    <img class="img-thumbnail" width="100" height="100" src="@Url.Action("GetImage", "Player", new { Model.Player.PlayerID })" />
+                }
+                else
+                {
+                    <img class="img-thumbnail" width="100" height="100" src="~/Content/Resources/unknown.png" />
+                }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        
+    </div>
+</div>
+<br />
+<p>
+    @if (ViewBag.CalledByView == "Player")
+    { 
+        @Html.ActionLink("Back to List", "Index", "Player", null, new { @class = "btn btn-primary btn-sm" })
+    }
+    else
+    {
+        @Html.ActionLink("Back to List", "Index", "Score", null, new { @class = "btn btn-primary btn-sm" })
+    }
+
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <text>|</text>
+        @Html.ActionLink("Edit", "Edit", "Player", new { id = Model.Player.PlayerID }, new { @class = "btn btn-primary btn-sm" })
+    }
+</p>

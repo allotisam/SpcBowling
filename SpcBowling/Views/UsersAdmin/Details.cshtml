@@ -1,0 +1,48 @@
+﻿@model SpcBowling.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "User Details";
+}
+
+<h2>User Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+</div>
+<h4>List of roles for this user</h4>
+@if (ViewBag.RoleNames.Count == 0)
+{
+    <hr />
+    <p>No roles found for this user.</p>
+}
+
+<table class="table">
+
+    @foreach (var item in ViewBag.RoleNames)
+    {
+        <tr>
+            <td>
+                @item
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Back to List", "Index", "UsersAdmin", null, new { @class = "btn btn-primary btn-sm" })
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <text>|</text>
+        @Html.ActionLink("Edit", "Edit", "UsersAdmin", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm" })
+    }
+</p>
+
+
+

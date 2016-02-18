@@ -1,0 +1,11 @@
+﻿@model SpcBowling.Models.Player
+
+@if (Model.ImageData != null)
+{
+    <img class="img-thumbnail" width="30" height="30" src="@Url.Action("GetImage", "Player", new { playerId = Model.PlayerID })" />
+}
+else
+{
+    <img class="img-thumbnail" width="30" height="30" src="~/Content/Resources/unknown.png" />
+}
+@Html.DisplayFor(modelItem => Model.FullName)

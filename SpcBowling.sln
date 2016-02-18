@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpcBowling", "SpcBowling\SpcBowling.csproj", "{8200C6E8-8024-4FA5-AAFA-B2E97447EB16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpcBowling.Tests", "SpcBowling.Tests\SpcBowling.Tests.csproj", "{44ECC880-B6A2-4C58-B765-C0D03A14460F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8200C6E8-8024-4FA5-AAFA-B2E97447EB16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8200C6E8-8024-4FA5-AAFA-B2E97447EB16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8200C6E8-8024-4FA5-AAFA-B2E97447EB16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8200C6E8-8024-4FA5-AAFA-B2E97447EB16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44ECC880-B6A2-4C58-B765-C0D03A14460F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44ECC880-B6A2-4C58-B765-C0D03A14460F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44ECC880-B6A2-4C58-B765-C0D03A14460F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44ECC880-B6A2-4C58-B765-C0D03A14460F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

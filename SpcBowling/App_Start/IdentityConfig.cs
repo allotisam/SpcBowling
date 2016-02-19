@@ -137,7 +137,7 @@ namespace SpcBowling
 
             // used below ConfigurationManager class to extract the values from Web.Config file
             const string name = "allotisam@hotmail.com";
-            const string password = "Admin1!";     // create any password of your choice
+            const string password = "";     // create any password of your choice
 
             //string name = ConfigurationManager.AppSettings["emailAddress"].ToString();
             //string password = ConfigurationManager.AppSettings["emailPassword"].ToString();

@@ -13,7 +13,7 @@ namespace SpcBowling.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "aLLoTiSaM's Contact Info";
+            ViewBag.Message = "Jeong H. Park's Contact Info";
 
             return View();
         }

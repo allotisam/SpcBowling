@@ -54,7 +54,13 @@ namespace SpcBowling
             //   consumerKey: "",
             //   consumerSecret: "");
 
+            app.UseFacebookAuthentication(
+                appId: "491155971036741",
+                appSecret: "5736e9be40a4ef3273633e50e8897cbe");
 
+            app.UseGoogleAuthentication(
+                clientId: "2838446044-l0eofe4apbbcjn5dn8015bc8oodsuh3b.apps.googleusercontent.com",
+                clientSecret: "peeMnYBtyUz849uhtqkJg2y7");
         }
     }
 }
